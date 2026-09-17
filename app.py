@@ -59,7 +59,7 @@ with st.sidebar.form("controls"):
         help="Changes legitimate spending, compromise frequency and fraud camouflage.",
     )
     budget = st.slider("Daily review capacity", 5, 100, 20, 5)
-    run = st.form_submit_button("Run experiment", type="primary", use_container_width=True)
+    run = st.form_submit_button("Run experiment", type="primary", width="stretch")
 st.sidebar.caption("All data are synthetic. Results describe this model, not any bank's customers.")
 
 
@@ -122,7 +122,7 @@ with overview:
     fig.update_layout(
         template="plotly_dark", title="Emergent transaction activity", legend_title_text=""
     )
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width="stretch")
     left, right = st.columns(2)
     with left:
         st.plotly_chart(
@@ -133,7 +133,7 @@ with overview:
                 title="Hidden compromised population (oracle view)",
                 template="plotly_dark",
             ),
-            use_container_width=True,
+            width="stretch",
         )
     with right:
         st.plotly_chart(
@@ -146,7 +146,7 @@ with overview:
                 title="Overlapping amount distributions",
                 template="plotly_dark",
             ),
-            use_container_width=True,
+            width="stretch",
         )
     st.caption(
         "Hidden states and labels are shown for scientific diagnosis only. They are excluded from detector inputs."
@@ -170,7 +170,7 @@ with detection:
         template="plotly_dark",
         color_discrete_sequence=["#8be2d0", "#ff9f80"],
     )
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width="stretch")
     st.caption(
         "Daily top-K is retrospective batch triage. Fixed validation thresholds are a separate online-compatible policy; ties can exceed its target alert rate."
     )
@@ -184,8 +184,8 @@ with detection:
         yaxis_title="Precision",
         template="plotly_dark",
     )
-    st.plotly_chart(fig, use_container_width=True)
-    st.dataframe(results, use_container_width=True, hide_index=True)
+    st.plotly_chart(fig, width="stretch")
+    st.dataframe(results, width="stretch", hide_index=True)
 with network:
     st.write(
         "An exploratory view of observed transfers up to the selected day. Colours indicate synthetic communities, not predicted risk."
@@ -220,7 +220,7 @@ with network:
         xaxis=dict(visible=False),
         yaxis=dict(visible=False, scaleanchor="x"),
     )
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width="stretch")
     st.caption(
         "Display limited to the 160 most frequent directed pairs; lines do not show direction. Detector features use the full past event stream."
     )
