@@ -1,0 +1,32 @@
+{
+  "config": {
+    "seed": 42,
+    "customers": 160,
+    "days": 45,
+    "base_rate": 0.1,
+    "branching_ratio": 0.35,
+    "decay": 1.5,
+    "ou_kappa": 0.06,
+    "ou_sigma": 0.12,
+    "temperature": 0.8,
+    "network_memory": 1.0,
+    "compromise_hazard": 0.0007,
+    "recovery_hazard": 0.1,
+    "drift_fraction": 0.75,
+    "drift_strength": 1.0,
+    "label_delay_hours": 24.0,
+    "alert_budget": 20,
+    "max_events": 1000000
+  },
+  "python": "3.14.7",
+  "versions": {
+    "numpy": "2.5.3",
+    "pandas": "3.0.5",
+    "scikit-learn": "1.9.1",
+    "scipy": "1.18.1",
+    "fluxfraud": "0.1.0"
+  },
+  "transaction_sha256": "6b5ea2eeca69e3ed1f7fdd8f5139b07191cb01aab4a3a9382e0f3ddf28cc3ffa",
+  "transactions": 28604,
+  "warning": "Synthetic, uncalibrated experiment; not real-world performance."
+}

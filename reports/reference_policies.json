@@ -1,0 +1,26 @@
+{
+  "logistic": {
+    "threshold": 0.06803180412576386,
+    "validation_target_alert_fraction": 0.03210272873194221
+  },
+  "boosting": {
+    "threshold": 0.05678998640653408,
+    "validation_target_alert_fraction": 0.03210272873194221
+  },
+  "boosting_static": {
+    "threshold": 0.039351782695419966,
+    "validation_target_alert_fraction": 0.03210272873194221
+  },
+  "boosting_no_network": {
+    "threshold": 0.04608993119687903,
+    "validation_target_alert_fraction": 0.03210272873194221
+  },
+  "isolation_forest": {
+    "threshold": 0.5681489618332205,
+    "validation_target_alert_fraction": 0.03210272873194221
+  },
+  "behaviour_rule": {
+    "threshold": 2.536648997789257,
+    "validation_target_alert_fraction": 0.03210272873194221
+  }
+}

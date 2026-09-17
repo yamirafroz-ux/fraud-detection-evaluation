@@ -1,0 +1,2 @@
+# Plotly's self-contained generated report embeds upstream JavaScript.
+reports/*.html -whitespace linguist-generated=true

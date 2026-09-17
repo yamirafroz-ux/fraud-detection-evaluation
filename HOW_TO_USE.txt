@@ -1,0 +1,109 @@
+FLUXFRAUD — PRACTICAL GUIDE
+==========================
+
+PURPOSE
+A synthetic research environment for studying fraud and customer behaviour.
+It is not a trained model for use on real customer transactions.
+
+SETUP
+1. Install Python 3.11 or newer and open a terminal in this folder.
+2. python3 -m venv .venv
+3. macOS/Linux: source .venv/bin/activate
+   Windows: .venv\Scripts\activate
+4. python -m pip install -e '.[app,dev]'
+5. pytest -q
+
+FIRST RUN
+fluxfraud run --config configs/default.json --out runs/demo
+Choose a new output folder each time. The program refuses to replace old runs.
+To inspect the interactive application:
+streamlit run app.py
+Open the localhost URL printed in the terminal. Select controls and Run experiment.
+There is no external account, API key or uploaded customer data required.
+Press Ctrl+C in the terminal to stop the application.
+
+IMPORTANT PARAMETERS (configs/default.json)
+seed: Nonnegative integer. Controls all random draws. Match software versions too.
+customers: Number of accounts, 10 to 2000. Cost increases faster than linearly.
+days: Duration, 10 to 365 days. Longer runs provide more rare fraud examples.
+base_rate: Background events per customer per hour before state/seasonal factors.
+branching_ratio: Expected triggered offspring per event, 0 <= eta < 0.95.
+                 0 gives no self-excitation. Near 1 creates long costly bursts.
+decay: Hawkes relaxation rate, per hour. Memory timescale is 1/decay hours.
+ou_kappa: Log-spending mean-reversion rate. Timescale is 1/kappa hours.
+ou_sigma: Log-spending diffusion strength per sqrt(hour). Controls fluctuations.
+temperature: Positive recipient-choice temperature. Low = strong preferences.
+network_memory: Nonnegative reinforcement weight for past counterparties.
+compromise_hazard: Hourly exposure parameter. Zero produces no fraud labels.
+recovery_hazard: Hourly recovery parameter. Larger gives shorter compromise episodes.
+drift_fraction: Fraction of horizon when the shift starts, 0.70 to 0.90.
+drift_strength: Nonnegative joint shift strength. Zero is the no-shift control.
+label_delay_hours: Fixed delay before a label can enter training/validation.
+                   Must be less than 15% of the run horizon.
+alert_budget: Maximum daily top-K reviews. Also sets validation threshold target.
+max_events: Safety limit. Exceeding it raises an error, never silently clips data.
+
+Edit a COPY of default.json to preserve the reference configuration.
+Unknown keys and non-finite values fail validation. The defaults are hypotheses,
+not measured bank statistics. Use moderate parameters; valid mathematical values
+can still create an impractical number of events or extreme numerical ranges.
+
+OUTPUTS
+config.json: Exact exposed parameters.
+manifest.json: Runtime versions, transaction count, SHA-256 fingerprint.
+transactions.sqlite: transactions, accounts, latent_states, features, predictions.
+metrics.csv: Detector results for all test data and pre/post intervention periods.
+policies.json: Validation-only thresholds, fixed before testing.
+
+Oracle-only fields: is_fraud, typology, latent account attributes, latent_states.
+They are present for scientific inspection, never model predictors.
+Time is hours since simulation start. Currency is arbitrary, with 100 minor units
+per major unit. There is no exchange-rate model. Fraud labels refer to attempts;
+settled-fraud capture excludes insufficient-funds declines.
+
+READING THE RESULTS
+average_precision: Ranking quality in precision-recall space; prevalence-sensitive.
+roc_auc: Ranking quality across positives/negatives; no review capacity implied.
+precision/recall: Uses a threshold chosen earlier from validation scores.
+precision_at_daily_budget: Fraud fraction among each day's top K scores.
+recall_at_daily_budget: Fraud fraction found under that batch-review policy.
+settled_fraud_value_capture: Fraction of settled fraud value in reviewed attempts.
+brier_score: Mean squared probability error; only supervised models report it.
+Blank entries mean undefined or not applicable, not a score of zero.
+A partial calendar day still gets the full daily review budget.
+Daily top-K is retrospective batch triage, not a real-time online decision rule.
+
+MONTE CARLO
+fluxfraud monte-carlo --config configs/default.json --seeds 11 22 33 44 55 --out runs/mc
+Runs full, no-excitation, no-memory and no-shift worlds for each seed.
+replicates.csv preserves every result. summary.csv gives seed means, standard
+errors and Student-t 95% intervals. Five seeds are a pilot, not strong certainty.
+Use more distinct seeds for a stronger estimate. Invalid/failed worlds stop the
+experiment instead of being silently excluded. Confidence intervals quantify
+simulation randomness only. They do not validate the model against reality.
+
+SQL
+sqlite3 -header -column runs/demo/transactions.sqlite < sql/analysis.sql
+The example graph cutoff is 540 hours for the default 45-day run; change it for
+other horizons. The causal count uses the same open time boundaries as Python.
+Do not use full-run graph statistics as features for earlier transactions.
+
+TROUBLESHOOTING
+No module named fluxfraud: activate .venv and reinstall with pip install -e .
+Missing app libraries: python -m pip install -e '.[app]'
+Training needs both classes: increase customers, days or compromise_hazard.
+Event safety limit reached: reduce rate, branching ratio, population or duration.
+Output already exists: pick a new --out directory; preserve old results.
+Very slow run: reduce population first; recipient selection is dense.
+Port in use: streamlit run app.py --server.port 8502
+Exact results differ: compare versions, config and seed in manifest.json.
+A physical-core warning on restricted macOS hosts is harmless; computations use
+bounded model threading. Never hide numerical errors or force a favourable seed.
+
+GIT / GITHUB
+The intended public repository is yamirafroz-ux/fraud-detection-evaluation.
+Review README.md, reports and git status before publishing. Raw generated runs
+and environment files are ignored. Once GitHub authentication is available:
+  gh repo create yamirafroz-ux/fraud-detection-evaluation --public --source . --remote origin --push
+If the repository already exists, add its Git remote and use git push -u origin main.
+Do not place passwords or personal access tokens in source files or remote URLs.
