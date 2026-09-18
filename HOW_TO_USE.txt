@@ -18,7 +18,11 @@ fluxfraud run --config configs/default.json --out runs/demo
 Choose a new output folder each time. The program refuses to replace old runs.
 To inspect the interactive application:
 streamlit run app.py
-Open the localhost URL printed in the terminal. Select controls and Run experiment.
+Open the localhost URL printed in the terminal. The world prepares automatically.
+Press Play, Next transaction, or Next loop. Jump to a day with the timeline.
+Use See model predictions to reach the test period; plots update with playback.
+Click How were the models trained? for a plain-language explanation.
+New simulation offers 30/60/90 days, account count and seed.
 There is no external account, API key or uploaded customer data required.
 Press Ctrl+C in the terminal to stop the application.
 

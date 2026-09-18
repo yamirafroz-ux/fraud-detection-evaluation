@@ -59,7 +59,9 @@ streamlit run app.py
 
 On Windows, activate with `.venv\Scripts\activate`. Open the local address printed by Streamlit. Use a **new output directory** for each CLI run; existing outputs are never silently overwritten.
 
-The app exposes seed, population, duration, branching ratio, network temperature, shift strength and review capacity. It shows transaction dynamics, hidden-state diagnostics, precision–recall curves, a time-filtered network and downloadable data. Changing controls only affects results after pressing **Run experiment**; the displayed configuration identifies the actual run.
+The app opens directly on an animated account grid. Press **Play**, step through individual transactions, jump to a day or use **Next loop**. Green transfers are legitimate; red transfers are simulated fraud; purple highlights show one observed settled two- or three-edge temporal cycle within 24 hours. A loop is not proof of fraud. Playback is an accelerated replay of the generated world, not a live banking feed.
+
+Select **See model predictions** to reach held-out evaluation. Cumulative fraud-capture, correct-alert and overall-accuracy plots follow the playback position using fixed validation thresholds. **How were the models trained?** opens a plain-language explanation. The compact simulation settings offer 30/60/90 days, account count and seed; the full physics parameters remain available through CLI configuration.
 
 ```bash
 # Five independent worlds × four mechanism settings × six detector variants
