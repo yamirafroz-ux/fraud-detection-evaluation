@@ -12,6 +12,7 @@ SETUP
    Windows: .venv\Scripts\activate
 4. python -m pip install -e '.[app,dev]'
 5. pytest -q
+6. streamlit run app.py
 ^The above only initiates the simulation,
 FIRST RUN
 fluxfraud run --config configs/default.json --out runs/demo
