@@ -12,7 +12,7 @@ SETUP
    Windows: .venv\Scripts\activate
 4. python -m pip install -e '.[app,dev]'
 5. pytest -q
-
+^The above only initiates the simulation,
 FIRST RUN
 fluxfraud run --config configs/default.json --out runs/demo
 Choose a new output folder each time. The program refuses to replace old runs.
